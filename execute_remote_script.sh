@@ -45,10 +45,10 @@ if ! openssl pkey -pubin -in "$PUBKEY_PATH" -text >/dev/null 2>&1; then
 fi
 
 # verify detached Ed25519 signature
-if openssl pkeyutl -verify -pubin -inkey "$PUBKEY_PATH" -in "$SCRIPT_PATH" -sigfile "$SIG_PATH"; then
+if openssl pkeyutl -verify -pubin -inkey "$PUBKEY_PATH" -rawin -in "$SCRIPT_PATH" -sigfile "$SIG_PATH"; then
   echo "Signature OK"
   chmod +x "$SCRIPT_PATH"
-  exec bash "$SCRIPT_PATH"
+  exec "$SCRIPT_PATH"
 else
   echo "Signature verification FAILED" >&2
   exit 2
